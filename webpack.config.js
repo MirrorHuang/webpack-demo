@@ -34,6 +34,9 @@ module.exports = {
   optimization:{
     splitChunks:{
       chunks:'all'
+    },
+    runtimeChunk: {
+      name: 'runtime'
     }
   },
   mode: 'development',
