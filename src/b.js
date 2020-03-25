@@ -5,7 +5,7 @@ class Button extends React.PureComponent {
     return (
       <React.Fragment>
         <button
-          onClick={() => { getDPAppMeishiDealDetailPageUrl(123) }}
+          onClick={() => {  }}
         > click me to getUrl
         </button>
         <button onClick={()=>{this.props.load()}}>click me to getLazy</button>
