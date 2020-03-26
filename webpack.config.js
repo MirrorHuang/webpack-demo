@@ -5,12 +5,29 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require("webpack");
+var fs = require('fs');
+
+const entry = {}
+const htmlList = []
+const files = fs.readdirSync(path.join(__dirname, './src/page'));
+
+files.forEach(function (filename) {
+  entry[filename] = path.join(__dirname, './src/page', filename);
+  htmlList.push(new HtmlWebpackPlugin({
+    template: 'index.html',
+    filename: `${filename}/${filename}.html`,
+    chunks: ["runtime", "framework", /common(.*)\.js/, filename]
+  }))
+})
+
+
 
 module.exports = {
-  entry: "./index.jsx",
+  entry,
   output: {
+    publicPath: '../', // 按需加载指定目录，相对于html
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].bundle.[chunkhash].js'
+    filename: '[name].bundle.[chunkhash].js',
   },
   devtool: 'cheap-module-source-map',
   module: {
@@ -33,19 +50,37 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: 'all'
+      maxAsyncRequests: 5,
+      chunks: "all",
+      maxInitialRequests: 3,
+      cacheGroups: {
+        framework: { // 抽离框架
+          test: (module) => {
+            return /react|redux|prop-types/.test(module.context);
+          },
+          name: "framework", // 打包后的文件名，任意命名
+          reuseExistingChunk: true,
+          priority: 10, // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+        },
+        common: { // 第三方依赖
+          test: /node_modules\/(.*)\.js/,
+          name: "common",
+          priority: 1,
+          // maxSize: 300,
+        }
+      },
     },
     runtimeChunk: {
       name: 'runtime'
     },
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   mode: 'development',
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-    }),
+    ...htmlList,
     new BundleAnalyzerPlugin(),
     // development 模式下开启tree shaking
     new webpack.optimize.ModuleConcatenationPlugin()

@@ -1,7 +1,7 @@
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import ReactDom from 'react-dom'
-import Title from './src/a'
-import Button from './src/b'
+import Title from './a'
+import Button from './b'
 
 class App extends React.PureComponent {
 
@@ -11,7 +11,7 @@ class App extends React.PureComponent {
     import(
       /* webpackChunkName: "lazyCom" */
       /* webpackPrefetch: true */
-      './src/c'
+      './c'
     ).then(res => {
       const { default: LazyCom } = res;
       this.setState({
