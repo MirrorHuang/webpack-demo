@@ -10,6 +10,7 @@ class App extends React.PureComponent {
   getloadCom() {
     import(
       /* webpackChunkName: "lazyCom" */
+      /* webpackPrefetch: true */
       './src/c'
     ).then(res => {
       const { default: LazyCom } = res;

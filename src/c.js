@@ -7,7 +7,7 @@ class LazyCom extends React.PureComponent {
     return (
       <Fragment>
         <div> {this.props.content} </div>
-        <div> {url} </div>
+        <div> {tmp} </div>
       </Fragment>
     )
   }

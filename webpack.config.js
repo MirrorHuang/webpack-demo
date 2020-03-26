@@ -12,7 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.[chunkhash].js'
   },
-  devtool:'cheap-module-source-map',
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [{
       test: /\.js|\.jsx$/,
@@ -26,18 +26,18 @@ module.exports = {
             }],
             '@babel/preset-react'
           ],
-          plugins: ['@babel/transform-runtime','@babel/plugin-proposal-class-properties']
+          plugins: ['@babel/transform-runtime', '@babel/plugin-proposal-class-properties']
         }
       }
     }]
   },
-  optimization:{
-    splitChunks:{
-      chunks:'all'
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
     },
     runtimeChunk: {
       name: 'runtime'
-    }
+    },
   },
   mode: 'development',
   plugins: [
@@ -46,9 +46,8 @@ module.exports = {
       filename: 'index.html',
       template: 'index.html',
     }),
-    // 
-    new BundleAnalyzerPlugin()
-    // //持久化moduleId，主要是为了之后研究加载代码好看一点。
-    // new webpack.HashedModuleIdsPlugin(),
+    new BundleAnalyzerPlugin(),
+    // development 模式下开启tree shaking
+    new webpack.optimize.ModuleConcatenationPlugin()
   ]
 }
