@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import Title from './a'
-import Button from './b'
-import ButtonD from './d'
+import Title from './components/a'
+import Button from './components/b'
+import ButtonD from './components/d'
 
 class App extends React.PureComponent {
 
@@ -12,7 +12,7 @@ class App extends React.PureComponent {
     import(
       /* webpackChunkName: "lazyComB" */
       /* webpackPrefetch: true */
-      './c'
+      './components/c'
     ).then(res => {
       const { default: LazyCom } = res;
       this.setState({

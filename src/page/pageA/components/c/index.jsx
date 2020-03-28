@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
-import _ from 'lodash'
-
+import add from 'lodash/add'
+import cls from 'classnames'
+import './index.less'
 class LazyCom extends React.PureComponent {
   render() {
-    const tmp = _.add(1 + 1)
+    const tmp = add(1 + 3)
     return (
       <Fragment>
-        <div> {this.props.content} </div>
+        <div className={cls('content', 'hello')} > { this.props.content } </div>
         <div> {tmp} </div>
       </Fragment>
     )

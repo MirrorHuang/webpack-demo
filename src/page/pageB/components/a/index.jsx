@@ -1,13 +1,15 @@
 import React from 'react'
-import { util } from '../../util'
+import { util } from '../../../../util'
+
+import './index.less'
 
 class Title extends React.PureComponent {
   render() {
     return (
       <React.Fragment>
-        <div>
+        <div className='hello'>
           hello webpack - 2
-      </div>
+        </div>
         <div>
           {util}
         </div>
