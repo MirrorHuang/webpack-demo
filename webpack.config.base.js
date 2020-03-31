@@ -3,10 +3,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //清除输出目录，免得每次手动删除
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require("webpack");
-var fs = require('fs');
+
+const fs = require('fs');
 
 const entry = {}
 const htmlList = []
@@ -21,16 +20,13 @@ files.forEach(function (filename) {
   }))
 })
 
-
-
 module.exports = {
   entry,
   output: {
     publicPath: '../', // 按需加载指定目录，相对于html
     path: path.resolve(__dirname, './dist'),
-    filename: '[name]/[name].bundle.[contenthash].js',
+    filename: process.env.NODE_ENV === 'production' ? '[name]/[name].bundle.[contenthash].js' : '[name]/[name].bundle.js',
   },
-  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -60,6 +56,14 @@ module.exports = {
           }, {
             loader: 'less-loader'
           }],
+      },
+      {
+        test: /\.ejs$/,
+        use: [
+          {
+            loader: "ejs-webpack-loader",
+          }
+        ]
       }]
   },
   optimization: {
@@ -80,7 +84,7 @@ module.exports = {
           test: /node_modules\/(.*)\.js/,
           name: "common",
           priority: 1,
-          // maxSize: 300,
+          // maxSize: 3000,
         }
       },
     },
@@ -91,15 +95,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  mode: 'development',
   plugins: [
     new CleanWebpackPlugin(['dist']),
     ...htmlList,
-    new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name]/[name].[contenthash].css'
+      filename: process.env.NODE_ENV === 'production' ? '[name]/[name].[contenthash].css' : '[name]/[name].css'
     }),
-    // development 模式下开启tree shaking
-    new webpack.optimize.ModuleConcatenationPlugin()
-  ]
+  ].filter(Boolean)
 }
