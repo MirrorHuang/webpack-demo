@@ -12,7 +12,8 @@ module.exports = merge(baseConfig, {
     port: 1024,
     open: true,
     // 必须设置，不然无法找到文件
-    publicPath: '/'
+    publicPath: '/',
+    openPage:'webpack-dev-server'
     // writeToDisk: true,
   },
   devtool: 'cheap-module-source-map',

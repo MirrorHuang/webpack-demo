@@ -1,37 +1,28 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDom from 'react-dom'
 import Title from './components/a'
 import Button from './components/b'
 import ButtonD from './components/d'
+import Lazy from './components/lazy'
 
 class App extends React.PureComponent {
 
-  state = { LazyCom: null }
+  // state = {
+  //   isShowLazy: false
+  // }
 
-  getloadCom() {
-    import(
-      /* webpackChunkName: "lazyComB" */
-      /* webpackPrefetch: true */
-      './components/c'
-    ).then(res => {
-      const { default: LazyCom } = res;
-      this.setState({
-        LazyCom
-      })
-    })
-  }
 
   render() {
-    const { LazyCom } = this.state
     return (
       <div>
         <Title />
-        <Button load={this.getloadCom.bind(this)} />
+        <Button load={() => { }} />
         <ButtonD />
-        {LazyCom ?
-          <LazyCom content={"I'm lazy"} />
-          : null
-        }
+        <Lazy
+          componentPromise={import(
+            /* webpackChunkName: "lazyComB" */
+            './components/c'
+          )} />
       </div>
     )
   }
