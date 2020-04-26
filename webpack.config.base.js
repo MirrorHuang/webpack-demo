@@ -1,6 +1,7 @@
 const path = require("path");
 //用于插入html模板
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 //清除输出目录，免得每次手动删除
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -16,7 +17,7 @@ files.forEach(function (filename) {
   htmlList.push(new HtmlWebpackPlugin({
     template: 'index.html',
     filename: `${filename}/${filename}.html`,
-    chunks: ["runtime", "framework", /common(.*)\.js/, filename]
+    chunks: ["runtime", "framework", /common(.*)\.js/, filename],
   }))
 })
 
@@ -98,6 +99,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     ...htmlList,
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin,[/^runtime/]),
     new MiniCssExtractPlugin({
       filename: process.env.NODE_ENV === 'production' ? '[name]/[name].[contenthash].css' : '[name]/[name].css'
     }),
