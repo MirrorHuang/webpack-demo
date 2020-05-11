@@ -11,7 +11,7 @@ export default class App extends React.PureComponent {
       <div>
         <Title />
         <Button load={() => { 
-          console.log('load')
+          console.log('load button')
         }} />
         <ButtonD />
         <Lazy
