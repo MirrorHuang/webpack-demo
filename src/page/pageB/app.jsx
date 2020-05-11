@@ -1,5 +1,4 @@
-import React, { lazy, Suspense } from 'react'
-import ReactDom from 'react-dom'
+import React from 'react'
 import Title from './components/a'
 import Button from './components/b'
 import ButtonD from './components/d'
