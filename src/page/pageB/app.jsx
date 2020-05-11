@@ -7,11 +7,6 @@ import Lazy from './components/lazy'
 
 export default class App extends React.PureComponent {
 
-  // state = {
-  //   isShowLazy: false
-  // }
-
-
   render() {
     return (
       <div>
